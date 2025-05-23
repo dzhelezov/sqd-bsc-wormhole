@@ -11,7 +11,7 @@ import {
   
   import evm from "@wormhole-foundation/sdk/platforms/evm";
   import solana from "@wormhole-foundation/sdk/platforms/solana";
-import { NttContracts, DEVNET_SOL_PRIVATE_KEY, DEVNET_ETH_PRIVATE_KEY, TEST_NTT_TOKENS} from "./const";
+import { NttContracts, SQD_NTT_TOKENS } from "./const";
 import { NttRoute } from "@wormhole-foundation/sdk-route-ntt";
   
   export interface SignerStuff<N extends Network, C extends Chain> {
@@ -29,17 +29,17 @@ import { NttRoute } from "@wormhole-foundation/sdk-route-ntt";
     let signer: Signer;
     const platform = chainToPlatform(chain.chain);
     switch (platform) {
-      case "Solana":
-        signer = await solana.getSigner(
-          await chain.getRpc(),
-          getEnv("OTHER_SOL_PRIVATE_KEY", DEVNET_SOL_PRIVATE_KEY),
-          { debug: false }
-        );
-        break;
+      // case "Solana":
+      //   signer = await solana.getSigner(
+      //     await chain.getRpc(),
+      //     getEnv("OTHER_SOL_PRIVATE_KEY", DEVNET_SOL_PRIVATE_KEY),
+      //     { debug: false }
+      //   );
+      //   break;
       case "Evm":
         signer = await evm.getSigner(
           await chain.getRpc(),
-          getEnv("ETH_PRIVATE_KEY", DEVNET_ETH_PRIVATE_KEY)
+          getEnv("ETH_PRIVATE_KEY")
         );
         break;
       default:
@@ -72,7 +72,7 @@ import { NttRoute } from "@wormhole-foundation/sdk-route-ntt";
 
   // Reformat NTT contracts to fit TokenConfig for Route
 function reformat(contracts: NttContracts) {
-  return Object.entries(TEST_NTT_TOKENS).map(([chain, contracts]) => {
+  return Object.entries(SQD_NTT_TOKENS).map(([chain, contracts]) => {
     const { token, manager, transceiver: xcvrs } = contracts!;
     const transceiver = Object.entries(xcvrs).map(([k, v]) => {
       return { type: k as NttRoute.TransceiverType, address: v };
@@ -82,5 +82,5 @@ function reformat(contracts: NttContracts) {
 }
 
 export const NttTokens = {
-  Test: reformat(TEST_NTT_TOKENS),
+  Test: reformat(SQD_NTT_TOKENS),
 };
