@@ -8,7 +8,7 @@ import solana from "@wormhole-foundation/sdk/platforms/solana";
 // register protocol implementations
 import "@wormhole-foundation/sdk-evm-ntt";
 import "@wormhole-foundation/sdk-solana-ntt";
-import { TEST_NTT_TOKENS } from "./utils/const";
+import { SQD_NTT_TOKENS } from "./utils/const";
 import { getSigner } from "./utils/helpers";
 
 (async function () {
@@ -20,7 +20,7 @@ import { getSigner } from "./utils/helpers";
   
   // Set up destination NTT protocol
   const dstNtt = await dst.getProtocol("Ntt", {
-    ntt: TEST_NTT_TOKENS[dst.chain],
+    ntt: SQD_NTT_TOKENS[dst.chain],
   });
   
   // TODO: Replace with the actual Wormhole transaction ID
